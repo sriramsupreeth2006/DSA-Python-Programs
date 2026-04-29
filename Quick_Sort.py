@@ -1,24 +1,26 @@
-#Quick Sort
-def partition(array, low, high):
-    pivot = array[low]
-    left = low + 1
-    right = high
-    while True:
-        while left <= right and array[left] <= pivot:
-            left += 1
-        while left <= right and array[right] > pivot:
-            right -= 1
-        if left > right:
-            break
-        array[left], array[right] = array[right], array[left]
-    array[low], array[right] = array[right], array[low]
-    return right
-def quick_sort(array, low, high):
+def partition(arr, low, high):
+    pivot = arr[high]
+    i = low - 1  # Index of smaller element
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+    return i + 1
+def quick_sort(arr, low, high):
     if low < high:
-        pi = partition(array, low, high)
-        quick_sort(array, low, pi-1)
-        quick_sort(array, pi+1, high)
-array = list(map(int, input("Enter list with spaces: ").split()))
-print(array)
-quick_sort(array, 0, len(array) - 1)
-print(array)
+        pi = partition(arr, low, high)
+        quick_sort(arr, low, pi - 1)
+        quick_sort(arr, pi + 1, high)
+try:
+    n = int(input("Enter n value: "))
+    cgpas = []
+    for i in range(n):
+        val = float(input(f"Enter CGPA of student {i+1} : "))
+        cgpas.append(val)
+    quick_sort(cgpas, 0, n - 1)
+    sorted_str = " ".join(map(lambda x: str(int(x) if x.is_integer() else x), cgpas))
+    print(f"Sample Output: The CGPA of students in order {sorted_str}")
+except ValueError:
+    print("Please enter valid numerical values.")
